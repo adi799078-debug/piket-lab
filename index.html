@@ -3,82 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistem Piket Lab Digital</title>
+    <title>Monitoring Piket Lab</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        body { background-color: #f4f7f6; padding-bottom: 50px; }
+        body { background-color: #f4f7f6; }
         .card { border-radius: 15px; border: none; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         .nav-pills .nav-link.active { background-color: #198754; font-weight: bold; }
-        .nav-link { color: #198754; }
         #loader { display: none; }
-        .header-title { color: #198754; font-weight: bold; text-align: center; margin-bottom: 20px; }
     </style>
 </head>
 <body>
 
 <div class="container mt-4">
-    <h2 class="header-title">🧹 Monitoring Piket Lab</h2>
+    <h2 class="text-center mb-4" style="color: #198754;">🧹 Monitoring Piket Lab</h2>
 
-    <!-- Navigasi Tab -->
-    <ul class="nav nav-pills nav-fill mb-4" id="pills-tab">
-        <li class="nav-item">
-            <button class="nav-link active" data-bs-toggle="pill" data-bs-target="#form">📝 Kirim Laporan</button>
-        </li>
-        <li class="nav-item">
-            <button class="nav-link" data-bs-toggle="pill" data-bs-target="#list" onclick="muatData()">📊 Riwayat (Riil-time)</button>
-        </li>
+    <ul class="nav nav-pills nav-fill mb-4">
+        <li class="nav-item"><button class="nav-link active" data-bs-toggle="pill" data-bs-target="#form">📝 Kirim Laporan</button></li>
+        <li class="nav-item"><button class="nav-link" data-bs-toggle="pill" data-bs-target="#list" onclick="muatData()">📊 Riwayat</button></li>
     </ul>
 
     <div class="tab-content">
-        <!-- HALAMAN FORMULIR -->
         <div class="tab-pane fade show active" id="form">
             <div class="card p-4 mx-auto" style="max-width: 500px;">
                 <form id="pForm">
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Nama Siswa</label>
-                        <input type="text" id="n" class="form-control" placeholder="Tulis nama lengkap" required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Tugas Piket</label>
-                        <select id="t" class="form-select" required>
-                            <option value="">-- Pilih Tugas --</option>
-                            <option>Menyapu & Mengepel</option>
-                            <option>Merapikan Meja & Kursi</option>
-                            <option>Membersihkan Komputer</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Catatan Singkat</label>
-                        <input type="text" id="c" class="form-control" placeholder="Contoh: Lab sudah dikunci">
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Foto Bukti</label>
-                        <input type="file" id="f" class="form-control" accept="image/*" capture="camera" required>
-                    </div>
-                    <button type="submit" id="btn" class="btn btn-success w-100 fw-bold">KIRIM LAPORAN</button>
+                    <div class="mb-3"><label class="fw-bold">Nama Siswa</label><input type="text" id="n" class="form-control" required></div>
+                    <div class="mb-3"><label class="fw-bold">Tugas</label><select id="t" class="form-select"><option>Menyapu & Mengepel</option><option>Merapikan Kursi & Meja</option></select></div>
+                    <div class="mb-3"><label class="fw-bold">Catatan</label><input type="text" id="c" class="form-control"></div>
+                    <div class="mb-3"><label class="fw-bold">Foto Bukti</label><input type="file" id="f" class="form-control" accept="image/*" capture="camera" required></div>
+                    <button type="submit" id="btn" class="btn btn-success w-100 fw-bold">Kirim Laporan</button>
                 </form>
                 <div id="msg" class="mt-3 text-center"></div>
             </div>
         </div>
 
-        <!-- HALAMAN RIWAYAT -->
         <div class="tab-pane fade" id="list">
             <div class="card p-3">
-                <h5 class="text-center mb-3">Daftar Laporan di Google Drive</h5>
-                <div id="loader" class="text-center">
-                    <div class="spinner-border text-success"></div>
-                    <p>Mengambil data dari Drive...</p>
-                </div>
+                <div id="loader" class="text-center"><div class="spinner-border text-success"></div><p>Memuat Riwayat...</p></div>
                 <div class="table-responsive">
-                    <table class="table align-middle table-striped">
-                        <thead class="table-success">
-                            <tr>
-                                <th>Waktu</th>
-                                <th>Nama</th>
-                                <th>Tugas</th>
-                                <th>Foto</th>
-                            </tr>
-                        </thead>
+                    <table class="table table-striped align-middle">
+                        <thead class="table-success"><tr><th>Waktu</th><th>Nama</th><th>Tugas</th><th>Foto</th></tr></thead>
                         <tbody id="tBody"></tbody>
                     </table>
                 </div>
@@ -87,88 +50,51 @@
     </div>
 </div>
 
-<!-- Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-    // URL Web App Anda yang baru (Gunakan yang dari Apps Script Terakhir)
-    const url = 'https://script.google.com/macros/s/AKfycbxu7OriR3Dnp88cBqD6mjWfZE6gjdgv8gjGW7TydyLffrNk_BIBrarNdM18TzDEQJk1Kg/exec'; 
+    const url = 'URL_WEB_APP_ANDA'; // Masukkan URL Web App Baru Anda di sini
 
-    const pForm = document.getElementById('pForm');
-    const btn = document.getElementById('btn');
-    const msg = document.getElementById('msg');
-
-    // 1. FUNGSI UNTUK MENGIRIM DATA
-    pForm.addEventListener('submit', e => {
+    document.getElementById('pForm').addEventListener('submit', e => {
         e.preventDefault();
-        btn.disabled = true;
-        btn.innerText = "Sedang Mengirim...";
-        msg.innerHTML = "";
-
+        const b = document.getElementById('btn');
+        b.disabled = true; b.innerText = "Mengirim...";
+        
         const file = document.getElementById('f').files[0];
-        const reader = new FileReader();
-
-        reader.onload = function() {
-            const data = {
+        const r = new FileReader();
+        r.onload = function() {
+            const d = {
                 nama: document.getElementById('n').value,
                 bagian: document.getElementById('t').value,
                 catatan: document.getElementById('c').value || "-",
-                file: reader.result.split(',')[1],
+                file: r.result.split(',')[1],
                 mimeType: file.type
             };
-
-            fetch(url, { method: 'POST', body: JSON.stringify(data) })
+            fetch(url, { method: 'POST', body: JSON.stringify(d) })
             .then(res => res.json())
-            .then(response => {
-                btn.disabled = false;
-                btn.innerText = "Kirim Laporan";
-                if(response.result === 'success') {
-                    msg.innerHTML = '<div class="alert alert-success">✅ Berhasil! Foto tersimpan di Drive.</div>';
-                    pForm.reset();
-                } else {
-                    msg.innerHTML = '<div class="alert alert-danger">❌ Gagal: ' + response.error + '</div>';
-                }
-            })
-            .catch(err => {
-                btn.disabled = false;
-                btn.innerText = "Kirim Laporan";
-                msg.innerHTML = '<div class="alert alert-danger">❌ Terjadi kesalahan jaringan.</div>';
+            .then(res => {
+                b.disabled = false; b.innerText = "Kirim Laporan";
+                if(res.result === 'success') { alert('Laporan Terkirim!'); location.reload(); }
+                else { alert('Gagal: ' + res.error); }
             });
         };
-        reader.readAsDataURL(file);
+        r.readAsDataURL(file);
     });
 
-    // 2. FUNGSI UNTUK MUAT DATA (RIWAYAT)
     function muatData() {
         const body = document.getElementById('tBody');
-        const loader = document.getElementById('loader');
-        
+        document.getElementById('loader').style.display = 'block';
         body.innerHTML = '';
-        loader.style.display = 'block';
-
-        fetch(url)
-        .then(res => res.json())
-        .then(data => {
-            loader.style.display = 'none';
-            if(data.length === 0) {
-                body.innerHTML = '<tr><td colspan="4" class="text-center">Belum ada data.</td></tr>';
-                return;
-            }
-            
-            // Urutkan dari yang terbaru
+        fetch(url).then(res => res.json()).then(data => {
+            document.getElementById('loader').style.display = 'none';
             data.reverse().forEach(item => {
                 const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td><small>${item.waktu}</small></td>
-                    <td><b>${item.nama}</b></td>
-                    <td>${item.tugas}</td>
-                    <td><a href="${item.url}" target="_blank" class="btn btn-sm btn-success">Lihat Foto</a></td>
-                `;
+                tr.innerHTML = `<td><small>${item.waktu}</small></td><td><b>${item.nama}</b></td><td>${item.tugas}</td>
+                                <td><a href="${item.foto}" target="_blank" class="btn btn-sm btn-outline-success">Lihat Foto</a></td>`;
                 body.appendChild(tr);
             });
-        })
-        .catch(err => {
-            loader.style.display = 'none';
-            body.innerHTML = '<tr><td colspan="4" class="text-center text-danger">Gagal memuat data.</td></tr>';
+        }).catch(() => {
+            document.getElementById('loader').style.display = 'none';
+            body.innerHTML = '<tr><td colspan="4" class="text-center text-danger">Gagal memuat data. Akun Anda mungkin dibatasi Admin.</td></tr>';
         });
     }
 </script>
